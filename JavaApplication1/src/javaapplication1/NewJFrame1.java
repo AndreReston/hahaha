@@ -160,7 +160,7 @@ String username = us.getText();
     try {
         config con = new config();
 
-        String sql = "SELECT status, role FROM tbl_user WHERE users=? AND pass=?";
+        String sql = "SELECT status, role FROM users WHERE users=? AND pass=?";
         java.sql.Connection conn = con.connectDB();
         java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 

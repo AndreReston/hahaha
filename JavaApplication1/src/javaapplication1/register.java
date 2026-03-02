@@ -168,7 +168,7 @@ public class register extends javax.swing.JFrame {
 
 
     config con = new config();
-    String sql = "INSERT INTO tbl_user(users, pass, status, role) VALUES (?,?,?,?)";
+    String sql = "INSERT INTO users(users, pass, status, role) VALUES (?,?,?,?)";
 
     con.addRecord(sql, username, password, status, role);
 
