@@ -34,7 +34,7 @@ public class userform extends javax.swing.JFrame {
         
         if (profilePath != null && !profilePath.trim().isEmpty()) {
             // Already has profile picture, go straight to dashboard
-            CostumerDashboard dash = new CostumerDashboard();
+            staff_profile dash = new staff_profile();
             dash.setVisible(true);
             this.dispose(); // close current form
         } else {
@@ -52,7 +52,7 @@ public class userform extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Profile picture updated!");
 
                 // Now proceed to dashboard
-                CostumerDashboard dash = new CostumerDashboard();
+                staff_profile dash = new staff_profile();
                 dash.setVisible(true);
                 this.dispose();
             }
@@ -303,7 +303,7 @@ con.displayData(sql, userTables);
     String newStatus = (choice == 0) ? "Active" : "Pending";
 
     config con = new config();
-    String sql = "UPDATE tbl_user SET status=? WHERE u_id=?";
+    String sql = "UPDATE users SET status=? WHERE user_id=?";
     con.updateRecord(sql, newStatus, u_id);
 
     JOptionPane.showMessageDialog(this,

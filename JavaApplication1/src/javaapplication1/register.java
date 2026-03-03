@@ -147,12 +147,16 @@ public class register extends javax.swing.JFrame {
     private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
         // TODO add your handling code here:
         String username = users.getText();
-    String password = pass.getText();
-    String confirm  = passcon.getText();
-    String role = "customer";
+    String password = new String(pass.getPassword()); // Use getPassword() for JPasswordField
+    String confirm  = new String(passcon.getPassword());
+    
+    // These fields exist in your DB but aren't in your UI yet
+    String fullName = "Not Set"; 
+    String email = "Not Set";
+    String role = "Staff";
+    String status = "Pending";
 
-
-    // BASIC VALIDATION
+    // Validation
     if (username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
         JOptionPane.showMessageDialog(this, "All fields are required!");
         return;
@@ -163,21 +167,21 @@ public class register extends javax.swing.JFrame {
         return;
     }
 
-    // STATUS RULE
-   String status = "Pending";
-
-
     config con = new config();
-    String sql = "INSERT INTO users(users, pass, status, role) VALUES (?,?,?,?)";
+    
+    // Updated SQL to match your SQLite screenshot
+    String sql = "INSERT INTO users (users, full_name, email, pass, role, status) VALUES (?, ?, ?, ?, ?, ?)";
 
-    con.addRecord(sql, username, password, status, role);
+    // Pass all 6 arguments to match the 6 question marks
+    con.addRecord(sql, username, fullName, email, password, role, status);
 
-    JOptionPane.showMessageDialog(this,
-            "Registered successfully!\nStatus: " + status);
-
-    index login = new index();
-    login.setVisible(true);
-    this.dispose();
+    JOptionPane.showMessageDialog(this, "Registered successfully!\nStatus: " + status);
+    
+    // Optional: Clear fields
+    users.setText("");
+    pass.setText("");
+    passcon.setText("");
+    
     }//GEN-LAST:event_registerActionPerformed
 
     /**

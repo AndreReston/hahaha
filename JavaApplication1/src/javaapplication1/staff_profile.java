@@ -5,13 +5,18 @@
  */
 package javaapplication1;
 
+import config.config;
 import javax.swing.ImageIcon;
 import java.awt.Image;
 import javax.swing.JOptionPane;
-public class CostumerDashboard extends javax.swing.JFrame {
+public class staff_profile extends javax.swing.JFrame {
 private String profilePath;
+private int userId;
+    private staff_profile() {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
 
-    private CostumerDashboard() {
+    staff_profile(String selectedImagePath) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     private void loadProfileImage() {
@@ -34,8 +39,9 @@ private String profilePath;
     profile.setIcon(new ImageIcon(resized));
 }
 
-    public CostumerDashboard(String profilePath) {
+    public staff_profile(int id, String profilePath) {
     initComponents();
+    this.userId = id; // <--- Save the passed ID to your class variable
     this.profilePath = profilePath;
     loadProfileImage();
     }
@@ -53,13 +59,13 @@ private String profilePath;
 
         jPanel1 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
+        full_name = new javax.swing.JTextField();
         jLabel2 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
         jCalendarComboBox1 = new de.wannawork.jcalendar.JCalendarComboBox();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jTextField3 = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
         profile = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
@@ -70,9 +76,9 @@ private String profilePath;
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
         jLabel1.setText("COMPLETE NAME");
 
-        jTextField1.addActionListener(new java.awt.event.ActionListener() {
+        full_name.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField1ActionPerformed(evt);
+                full_nameActionPerformed(evt);
             }
         });
 
@@ -89,11 +95,11 @@ private String profilePath;
         jLabel3.setText("DATE OF BIRTH");
 
         jLabel4.setFont(new java.awt.Font("Tahoma", 1, 18)); // NOI18N
-        jLabel4.setText("ADDRESS");
+        jLabel4.setText("EMAIL");
 
-        jTextField3.addActionListener(new java.awt.event.ActionListener() {
+        email.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField3ActionPerformed(evt);
+                emailActionPerformed(evt);
             }
         });
 
@@ -134,9 +140,9 @@ private String profilePath;
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                             .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jCalendarComboBox1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jTextField1)
+                                .addComponent(full_name)
                                 .addComponent(jTextField2)
-                                .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 472, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGroup(jPanel1Layout.createSequentialGroup()
                             .addContainerGap()
                             .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 78, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -157,7 +163,7 @@ private String profilePath;
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(full_name, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 34, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -169,7 +175,7 @@ private String profilePath;
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jLabel4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(40, 40, 40)
                 .addComponent(jLabel6, javax.swing.GroupLayout.DEFAULT_SIZE, 50, Short.MAX_VALUE)
                 .addContainerGap())
@@ -180,17 +186,13 @@ private String profilePath;
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField1ActionPerformed
+    private void full_nameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_full_nameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField1ActionPerformed
+    }//GEN-LAST:event_full_nameActionPerformed
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void emailActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_emailActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField2ActionPerformed
-
-    private void jTextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField3ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jTextField3ActionPerformed
+    }//GEN-LAST:event_emailActionPerformed
 
     private void jLabel5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel5MouseClicked
 index i = new index();
@@ -205,44 +207,46 @@ this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jLabel6MouseEntered
 
     private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-                                    
-    String fullName = jTextField1.getText().trim();
+String fullName = full_name.getText().trim();
+    String userAddress = email.getText().trim(); 
     String ageText = jTextField2.getText().trim();
-    String address = jTextField3.getText().trim();
     
-    if (fullName.isEmpty() || ageText.isEmpty() || address.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "All fields are required!");
+    java.util.Date dateObj = jCalendarComboBox1.getDate();
+    String dobString = (dateObj != null) ? dateObj.toString() : "";
+
+    if (fullName.isEmpty() || ageText.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Name and Age are required!");
         return;
     }
 
-    int age;
     try {
-        age = Integer.parseInt(ageText);
+        int ageValue = Integer.parseInt(ageText);
+        config conf = new config();
+        
+        // 1. Updated SQL: We MUST save the profile_path so the login knows we are done.
+        String sql = "UPDATE users SET full_name = ?, address = ?, age = ?, dob = ?, profile_path = ? WHERE user_id = ?";
+        
+        // 2. Pass all 6 arguments (fullName, address, age, dob, path, id)
+        conf.updateRecord(sql, fullName, userAddress, ageValue, dobString, this.profilePath, this.userId);
+
+        JOptionPane.showMessageDialog(this, "Profile Saved! Redirecting to Store...");
+        
+        // 3. Move to Store
+        store shop = new store();
+        shop.setVisible(true);
+        this.dispose(); 
+
     } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Age must be a valid number!");
-        return;
+        JOptionPane.showMessageDialog(this, "Please enter a valid number for Age.");
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(this, "Error Saving: " + e.getMessage());
+        e.printStackTrace();
     }
-
-    if (age < 1 || age > 120) {
-        JOptionPane.showMessageDialog(this, "Please enter a realistic age (1–120).");
-        return;
-    }
-
-    java.util.Date dob = jCalendarComboBox1.getDate();
-
-
-    JOptionPane.showMessageDialog(this,
-            "Saved successfully!\n\n" +
-            "Name: " + fullName +
-            "\nAge: " + age +
-            "\nAddress: " + address +
-            "\nDOB: " + dob
-    );
-
-    // TODO: save to database here
-
-
     }//GEN-LAST:event_jLabel6MouseClicked
+
+    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jTextField2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -261,26 +265,34 @@ this.dispose();// TODO add your handling code here:
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(CostumerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(staff_profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(CostumerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(staff_profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(CostumerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(staff_profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(CostumerDashboard.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(staff_profile.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new CostumerDashboard().setVisible(true);
+                new staff_profile().setVisible(true);
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JTextField email;
+    private javax.swing.JTextField full_name;
     private de.wannawork.jcalendar.JCalendarComboBox jCalendarComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -289,9 +301,7 @@ this.dispose();// TODO add your handling code here:
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
     private javax.swing.JLabel profile;
     // End of variables declaration//GEN-END:variables
 }

@@ -149,8 +149,9 @@ Color HEADCOLOR = new Color (0,0,0);
     }//GEN-LAST:event_usActionPerformed
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-String username = us.getText();
-    String password = ps.getText();
+// 1. Get input from the text fields
+    String username = us.getText();
+    String password = new String(ps.getPassword()); // Proper way to get password
 
     if (username.isEmpty() || password.isEmpty()) {
         JOptionPane.showMessageDialog(this, "Please fill all fields!");
@@ -159,8 +160,10 @@ String username = us.getText();
 
     try {
         config con = new config();
-
-        String sql = "SELECT status, role FROM users WHERE users=? AND pass=?";
+        // 2. Select columns to check if profile is complete
+        // IMPORTANT: Ensure your SQLite table has a 'profile_path' column!
+        String sql = "SELECT user_id, status, role, full_name, profile_path FROM users WHERE users=? AND pass=?";
+        
         java.sql.Connection conn = con.connectDB();
         java.sql.PreparedStatement pst = conn.prepareStatement(sql);
 
@@ -170,50 +173,54 @@ String username = us.getText();
         java.sql.ResultSet rs = pst.executeQuery();
 
         if (rs.next()) {
-
+            int id = rs.getInt("user_id");
             String status = rs.getString("status");
             String role = rs.getString("role");
+            String fullName = rs.getString("full_name");
+            String pPath = rs.getString("profile_path");
 
-            // 🚫 BLOCK PENDING USERS
+            // Check if account is active
             if (!status.equalsIgnoreCase("Active")) {
-                JOptionPane.showMessageDialog(this,
-                        "Your account is pending approval!");
+                JOptionPane.showMessageDialog(this, "Your account is pending approval!");
                 return;
             }
 
-            // 🔀 ROLE-BASED REDIRECTION
+            // Role-based navigation
             if (role.equalsIgnoreCase("admin")) {
-
-                JOptionPane.showMessageDialog(this, "Welcome Admin!");
-                dashboard adminDash = new dashboard();
-                adminDash.setVisible(true);
+                new dashboard().setVisible(true);
                 this.dispose();
-
-            } else if (role.equalsIgnoreCase("customer")) {
-
-                JOptionPane.showMessageDialog(this, "Welcome Customer!");
-                index custDash = new index();
-                custDash.setVisible(true);
-                this.dispose();
-
-            } else {
-                JOptionPane.showMessageDialog(this,
-                        "Invalid role assigned to account!");
+            } 
+            else if (role.equalsIgnoreCase("staff")) {
+                // 3. LOGIC: If profile is missing Name or Picture, go to setup
+                if (fullName == null || fullName.trim().isEmpty() || pPath == null || pPath.trim().isEmpty()) {
+    JOptionPane.showMessageDialog(this, "Welcome! Please complete your profile setup.");
+    
+    // Pass the 'id' variable you got from rs.getInt("user_id")
+    index idx = new index(id); 
+    idx.setVisible(true);
+    this.dispose();
+                } else {
+                    // 4. PROFILE IS DONE: Skip setup and go to Store
+                    JOptionPane.showMessageDialog(this, "Welcome back, " + fullName + "!");
+                    store shop = new store();
+                    shop.setVisible(true);
+                    this.dispose();
+                }
             }
-
         } else {
-            JOptionPane.showMessageDialog(this,
-                    "Invalid username or password!");
+            JOptionPane.showMessageDialog(this, "Invalid username or password!");
         }
 
+        // 5. Always close your connections
         rs.close();
         pst.close();
         conn.close();
 
     } catch (Exception e) {
-        JOptionPane.showMessageDialog(this,
-                "Login Error: " + e.getMessage());
+        JOptionPane.showMessageDialog(this, "Login Error: " + e.getMessage());
+        e.printStackTrace();
     }
+
 
 
 

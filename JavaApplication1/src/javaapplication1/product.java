@@ -84,6 +84,7 @@ con.displayData(sql, productTable);
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
         delete = new javax.swing.JLabel();
+        view = new javax.swing.JLabel();
         add = new javax.swing.JLabel();
         update = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
@@ -116,7 +117,17 @@ con.displayData(sql, productTable);
                 deleteMouseClicked(evt);
             }
         });
-        jPanel1.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 150, 130, 40));
+        jPanel1.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 150, 130, 40));
+
+        view.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
+        view.setForeground(new java.awt.Color(0, 255, 255));
+        view.setText("VIEW");
+        view.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                viewMouseClicked(evt);
+            }
+        });
+        jPanel1.add(view, new org.netbeans.lib.awtextra.AbsoluteConstraints(700, 150, 130, 40));
 
         add.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
         add.setForeground(new java.awt.Color(0, 255, 255));
@@ -352,48 +363,9 @@ con.displayData(sql, productTable);
 
     private void addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_addMouseClicked
 
-    String name = JOptionPane.showInputDialog("Enter product name:");
-    if (name == null || name.trim().isEmpty()) return;
-
-    String category = JOptionPane.showInputDialog("Enter product category:");
-    if (category == null || category.trim().isEmpty()) return;
-
-    String priceStr = JOptionPane.showInputDialog("Enter product price:");
-    double price = Double.parseDouble(priceStr);
-
-    String stockStr = JOptionPane.showInputDialog("Enter stock quantity:");
-    int stock = Integer.parseInt(stockStr);
-
-    // Open JFileChooser to select an image
-    JFileChooser fileChooser = new JFileChooser();
-    fileChooser.setDialogTitle("Select Product Image");
-    fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Image Files", "jpg", "jpeg", "png", "gif"));
-    
-    // Show the file chooser and get the result
-    int result = fileChooser.showOpenDialog(this);
-    if (result == JFileChooser.APPROVE_OPTION) {
-        // Get the file path of the selected image
-        File selectedFile = fileChooser.getSelectedFile();
-        String imagePath = selectedFile.getAbsolutePath();
-
-        // Save the product to the database with the image path
-        config con = new config();
-        String sql = "INSERT INTO products (name, category, price, stock, image_path) VALUES (?, ?, ?, ?, ?)";
-        con.updateRecord(sql, name, category, price, stock, imagePath);
-
-        JOptionPane.showMessageDialog(this, "Product added successfully!");
-        displayProducts();  // Refresh the product table
-    } else {
-        JOptionPane.showMessageDialog(this, "No image selected. Product added without image.");
-        // Insert product without an image path
-        config con = new config();
-        String sql = "INSERT INTO products (name, category, price, stock) VALUES (?, ?, ?, ?)";
-        con.updateRecord(sql, name, category, price, stock);
-
-        JOptionPane.showMessageDialog(this, "Product added without image.");
-        displayProducts();  // Refresh the product table
-    }
-       // TODO add your handling code here:
+    addproduct adp = new addproduct();
+    adp.setVisible(true);
+    this.dispose();
     }//GEN-LAST:event_addMouseClicked
 
     private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
@@ -415,6 +387,10 @@ int selectedRow = productTable.getSelectedRow();
     JOptionPane.showMessageDialog(this, "Product deleted!");
     displayProducts();        // TODO add your handling code here:
     }//GEN-LAST:event_deleteMouseClicked
+
+    private void viewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_viewMouseClicked
 
     /**
      * @param args the command line arguments
@@ -470,6 +446,7 @@ int selectedRow = productTable.getSelectedRow();
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable productTable;
     private javax.swing.JLabel update;
+    private javax.swing.JLabel view;
     // End of variables declaration//GEN-END:variables
 
     void displayProducts() {

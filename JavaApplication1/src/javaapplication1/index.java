@@ -16,11 +16,14 @@ import java.nio.file.Paths;
 public class index extends javax.swing.JFrame {
 
     String selectedImagePath = "";
-
-    public index() {
+    int userId;
+    public index(int id) {
         initComponents();
+        this.userId = id;
     }
-
+    public index() {
+    initComponents();
+}
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -169,17 +172,15 @@ public class index extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 if (selectedImagePath.isEmpty()) {
-    javax.swing.JOptionPane.showMessageDialog(
-        this,
-        "Please select a profile picture first"
-    );
-    return;
-}
+            javax.swing.JOptionPane.showMessageDialog(this, "Please select a profile picture first");
+            return;
+        }
 
-CostumerDashboard nf = new CostumerDashboard(selectedImagePath);
-nf.setVisible(true);
-this.dispose();
-// TODO add your handling code here:
+        // Pass the REAL userId instead of 0
+        staff_profile nf = new staff_profile(this.userId, selectedImagePath);
+        nf.setVisible(true);
+        this.dispose();
+    
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
