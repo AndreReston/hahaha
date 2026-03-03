@@ -5,6 +5,12 @@
  */
 package javaapplication1;
 
+import config.config;
+import java.awt.Image;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 /**
  *
  * @author USER5
@@ -15,8 +21,83 @@ public class store extends javax.swing.JFrame {
      * Creates new form store
      */
     public store() {
-        initComponents();
+       initComponents(); 
+    displayPanel.setLayout(new java.awt.GridLayout(0, 4, 10, 10));
+    loadProducts();
+}
+    
+
+
+// Vertical Group: Put Label on top of ScrollPane
+// Simplified Layout for Vertical Stacking
+
+
+
+
+public JPanel createProductCard(String name, String price, String imgPath) {
+
+JPanel card = new JPanel();
+        card.setLayout(new javax.swing.BoxLayout(card, javax.swing.BoxLayout.Y_AXIS));
+        card.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 230, 230)));
+        card.setBackground(java.awt.Color.WHITE);
+
+        // Image handling
+        JLabel imageLabel = new JLabel();
+        imageLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+        try {
+            ImageIcon icon = new ImageIcon(imgPath);
+            Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+            imageLabel.setIcon(new ImageIcon(img));
+        } catch (Exception e) {
+            imageLabel.setText("No Image");
+        }
+
+        JLabel nameLabel = new JLabel("<html><body style='width: 100px; text-align: center;'>" + name + "</body></html>");
+        nameLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+
+        JLabel priceLabel = new JLabel("₱" + price);
+        priceLabel.setForeground(new java.awt.Color(255, 87, 34)); // Shopee Orange
+        priceLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
+        priceLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+
+        card.add(javax.swing.Box.createVerticalStrut(10));
+        card.add(imageLabel);
+        card.add(nameLabel);
+        card.add(priceLabel);
+        card.add(javax.swing.Box.createVerticalStrut(10));
+
+        return card;
+
+}
+
+
+
+// 2. Name Label
+
+
+public void loadProducts() {
+        displayPanel.removeAll(); 
+    try {
+        config conf = new config();
+        // Use the exact names from your 'products' table: name, price, image_path
+        String sql = "SELECT name, price, image_path FROM products"; 
+        java.sql.ResultSet rs = conf.getData(sql);
+
+        while (rs.next()) {
+            displayPanel.add(createProductCard(
+                rs.getString("name"),       // Changed from p_name
+                rs.getString("price"),      // Changed from p_price
+                rs.getString("image_path")  // Changed from p_image
+            ));
+        }
+    } catch (Exception e) {
+        System.out.println("Error loading products: " + e.getMessage());
     }
+    displayPanel.revalidate();
+    displayPanel.repaint();
+    }
+
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -28,27 +109,34 @@ public class store extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel1 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        displayPanel = new javax.swing.JPanel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 36)); // NOI18N
-        jLabel1.setText("ENJOY BROWSING");
+        jLabel1.setForeground(new java.awt.Color(0, 255, 255));
+
+        displayPanel.setLayout(new java.awt.GridLayout());
+        jScrollPane1.setViewportView(displayPanel);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(271, Short.MAX_VALUE)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 359, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(249, 249, 249))
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 878, javax.swing.GroupLayout.PREFERRED_SIZE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jScrollPane1)
             .addGroup(layout.createSequentialGroup()
-                .addGap(22, 22, 22)
+                .addContainerGap()
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(414, Short.MAX_VALUE))
+                .addContainerGap(434, Short.MAX_VALUE))
         );
 
         pack();
@@ -90,6 +178,8 @@ public class store extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JPanel displayPanel;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JScrollPane jScrollPane1;
     // End of variables declaration//GEN-END:variables
 }

@@ -213,5 +213,16 @@ public String getSingleValue(String sql, String username) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
+    public ResultSet getData(String sql) {
+        try {
+            Connection conn = connectDB();
+            Statement stmt = conn.createStatement();
+            return stmt.executeQuery(sql);
+        } catch (SQLException e) {
+            System.out.println("Error getting data: " + e.getMessage());
+            return null;
+        }
+    }
+
 }
 
