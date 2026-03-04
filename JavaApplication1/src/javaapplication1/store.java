@@ -7,6 +7,7 @@ package javaapplication1;
 
 import config.config;
 import java.awt.Image;
+import java.io.File;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,36 +38,67 @@ public class store extends javax.swing.JFrame {
 public JPanel createProductCard(String name, String price, String imgPath) {
 
 JPanel card = new JPanel();
-        card.setLayout(new javax.swing.BoxLayout(card, javax.swing.BoxLayout.Y_AXIS));
-        card.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 230, 230)));
-        card.setBackground(java.awt.Color.WHITE);
+    card.setLayout(new javax.swing.BoxLayout(card, javax.swing.BoxLayout.Y_AXIS));
+    card.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(230, 230, 230), 1));
+    card.setBackground(java.awt.Color.WHITE);
+    card.setPreferredSize(new java.awt.Dimension(200, 250)); // Fixed size for consistency
 
-        // Image handling
-        JLabel imageLabel = new JLabel();
-        imageLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
-        try {
-            ImageIcon icon = new ImageIcon(imgPath);
-            Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
-            imageLabel.setIcon(new ImageIcon(img));
-        } catch (Exception e) {
-            imageLabel.setText("No Image");
+    // 1. Image Handling with Path Verification
+    JLabel imageLabel = new JLabel();
+    imageLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+    
+    try {
+        if (imgPath != null && !imgPath.isEmpty()) {
+            File imgFile = new File(imgPath);
+            if (imgFile.exists()) {
+                ImageIcon icon = new ImageIcon(imgPath);
+                Image img = icon.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                imageLabel.setIcon(new ImageIcon(img));
+            } else {
+                imageLabel.setText("Image Not Found");
+                imageLabel.setForeground(java.awt.Color.RED);
+            }
+        } else {
+            imageLabel.setText("No Path Provided");
         }
+    } catch (Exception e) {
+        imageLabel.setText("Error Loading");
+    }
 
-        JLabel nameLabel = new JLabel("<html><body style='width: 100px; text-align: center;'>" + name + "</body></html>");
-        nameLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+    // 2. Product Name (Wrapped text)
+    JLabel nameLabel = new JLabel("<html><body style='width: 120px; text-align: center;'>" + name + "</body></html>");
+    nameLabel.setFont(new java.awt.Font("SansSerif", java.awt.Font.PLAIN, 14));
+    nameLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
 
-        JLabel priceLabel = new JLabel("₱" + price);
-        priceLabel.setForeground(new java.awt.Color(255, 87, 34)); // Shopee Orange
-        priceLabel.setFont(new java.awt.Font("Tahoma", 1, 14));
-        priceLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
+    // 3. Price Label
+    JLabel priceLabel = new JLabel("₱" + price);
+    priceLabel.setForeground(new java.awt.Color(255, 87, 34)); // Shopee/Lazada Orange
+    priceLabel.setFont(new java.awt.Font("Tahoma", java.awt.Font.BOLD, 16));
+    priceLabel.setAlignmentX(java.awt.Component.CENTER_ALIGNMENT);
 
-        card.add(javax.swing.Box.createVerticalStrut(10));
-        card.add(imageLabel);
-        card.add(nameLabel);
-        card.add(priceLabel);
-        card.add(javax.swing.Box.createVerticalStrut(10));
-
-        return card;
+    // 4. Adding components with spacing
+    card.add(javax.swing.Box.createVerticalStrut(10));
+    card.add(imageLabel);
+    card.add(javax.swing.Box.createVerticalStrut(10));
+    card.add(nameLabel);
+    card.add(javax.swing.Box.createVerticalStrut(5));
+    card.add(priceLabel);
+    card.add(javax.swing.Box.createVerticalStrut(10));
+    card.addMouseListener(new java.awt.event.MouseAdapter() {
+    @Override
+    public void mouseClicked(java.awt.event.MouseEvent evt) {
+        // Create an instance of your purchase frame
+        costumer_purchase purchaseFrame = new costumer_purchase();
+        
+        // Pass the data to the purchase frame (assuming you have these methods in customer_purchase)
+        purchaseFrame.setProductDetails(name, price, imgPath);
+        
+        // Show the purchase frame and close the current store
+        purchaseFrame.setVisible(true);
+        javax.swing.SwingUtilities.getWindowAncestor(card).dispose();
+    }
+});
+    return card;
 
 }
 

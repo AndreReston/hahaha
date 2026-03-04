@@ -14,55 +14,54 @@ import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 
-public class userform extends javax.swing.JFrame {
-    
+public class sales extends javax.swing.JFrame {
+
+ 
     // ... your other methods like displayUser(), chooseProfilePic(), etc.
-
-    private void chooseProfileOrProceed() {
-        int selectedRow = userTables.getSelectedRow();
-        if (selectedRow == -1) {
-            JOptionPane.showMessageDialog(this, "Please select a user first!");
-            return;
-        }
-
-        int u_id = Integer.parseInt(userTables.getValueAt(selectedRow, 0).toString());
-        
-        // Check if profile_path already exists
+void displaySalesData() {
         config con = new config();
-        String sqlCheck = "SELECT profile_path FROM users WHERE u_id=?";
-        String profilePath = con.getSingleValue(sqlCheck, u_id);
+        // CHANGED TO LEFT JOIN: This ensures data shows even if the product name is missing
+        String sql = "SELECT oi.order_item_id AS 'ID', p.name AS 'Product', " +
+                     "oi.quantity AS 'Qty', oi.price AS 'Unit Price', " +
+                     "(oi.quantity * oi.price) AS 'Total' " +
+                     "FROM order_items oi " +
+                     "LEFT JOIN products p ON oi.product_id = p.product_id";
         
-        if (profilePath != null && !profilePath.trim().isEmpty()) {
-            // Already has profile picture, go straight to dashboard
-            staff_profile dash = new staff_profile();
-            dash.setVisible(true);
-            this.dispose(); // close current form
-        } else {
-            // No profile picture, let user choose one
-            JFileChooser fileChooser = new JFileChooser();
-            int result = fileChooser.showOpenDialog(this);
-            if (result == JFileChooser.APPROVE_OPTION) {
-                File selectedFile = fileChooser.getSelectedFile();
-                String path = selectedFile.getAbsolutePath();
-
-                // Update DB
-                String sqlUpdate = "UPDATE users SET profile_path=? WHERE u_id=?";
-                con.updateRecord(sqlUpdate, path, u_id);
-
-                JOptionPane.showMessageDialog(this, "Profile picture updated!");
-
-                // Now proceed to dashboard
-                staff_profile dash = new staff_profile();
-                dash.setVisible(true);
-                this.dispose();
-            }
-        }
+        con.displayData(sql, sales_Table);
     }
 
-    public userform() {
-    initComponents();   // NetBeans GUI builder code runs first
-    displayUser();      // populate the table
 
+
+    public sales() {
+        initComponents();   // NetBeans GUI builder code runs first
+        displaySalesData();  // Populate the table on startup
+
+        // --- Add the Change Profile Picture button here ---
+        JButton changeProfileBtn = new JButton("Change Profile Picture");
+        changeProfileBtn.setFont(new java.awt.Font("Arial Black", 1, 18));
+        changeProfileBtn.setForeground(new Color(0, 255, 255));
+        changeProfileBtn.setBackground(new Color(0, 0, 0));
+        
+        jPanel1.add(changeProfileBtn, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 130, 280, 40));
+        
+        changeProfileBtn.addActionListener(e -> chooseProfilePic());
+        
+        jPanel1.repaint();
+    } // <--- THIS BRACE CLOSES THE CONSTRUCTOR
+
+    // NOW you can start the new method
+    void chooseProfilePic() {
+        JFileChooser fileChooser = new JFileChooser();
+        fileChooser.setDialogTitle("Select Profile Picture");
+        fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Images", "jpg", "png", "gif", "jpeg"));
+
+        int result = fileChooser.showOpenDialog(this);
+        if (result == JFileChooser.APPROVE_OPTION) {
+            File selectedFile = fileChooser.getSelectedFile();
+            String path = selectedFile.getAbsolutePath();
+            JOptionPane.showMessageDialog(this, "Selected image: " + path);
+        }
+    
     // --- Add the Change Profile Picture button here ---
     JButton changeProfileBtn = new JButton("Change Profile Picture");
     changeProfileBtn.setFont(new java.awt.Font("Arial Black", 1, 18));
@@ -78,11 +77,7 @@ public class userform extends javax.swing.JFrame {
 
 Color navcolor = new Color (0,255,255);
 Color HEADCOLOR = new Color (255,255,255);
-void displayUser(){
-config con = new config();
-String sql = "SELECT * FROM users";
-con.displayData(sql, userTables);
-}
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -94,18 +89,17 @@ con.displayData(sql, userTables);
 
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
-        update = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
         jLabel5 = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
         jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jPanel4 = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        userTables = new javax.swing.JTable();
+        sales_Table = new javax.swing.JTable();
         jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -116,16 +110,6 @@ con.displayData(sql, userTables);
         getContentPane().add(jPanel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(236, 733, -1, -1));
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
-
-        update.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
-        update.setForeground(new java.awt.Color(0, 255, 255));
-        update.setText("UPDATE");
-        update.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                updateMouseClicked(evt);
-            }
-        });
-        jPanel1.add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 150, 130, 40));
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 36)); // NOI18N
@@ -158,9 +142,6 @@ con.displayData(sql, userTables);
         jLabel6.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel6.setText("PRODUCT");
         jLabel6.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel6MouseClicked(evt);
-            }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 jLabel6MouseEntered(evt);
             }
@@ -184,23 +165,6 @@ con.displayData(sql, userTables);
         });
         jPanel3.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 20, 210, 60));
 
-        jLabel9.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
-        jLabel9.setForeground(new java.awt.Color(0, 255, 255));
-        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("LOGOUT");
-        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                jLabel9MouseClicked(evt);
-            }
-            public void mouseEntered(java.awt.event.MouseEvent evt) {
-                jLabel9MouseEntered(evt);
-            }
-            public void mouseExited(java.awt.event.MouseEvent evt) {
-                jLabel9MouseExited(evt);
-            }
-        });
-        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 210, 60));
-
         jLabel8.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 255, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
@@ -216,7 +180,24 @@ con.displayData(sql, userTables);
                 jLabel8MouseExited(evt);
             }
         });
-        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 210, 60));
+        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 210, 60));
+
+        jLabel9.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(0, 255, 255));
+        jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel9.setText("LOGOUT");
+        jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel9MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel9MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel9MouseExited(evt);
+            }
+        });
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 210, 60));
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setForeground(new java.awt.Color(51, 51, 255));
@@ -229,7 +210,7 @@ con.displayData(sql, userTables);
 
         jScrollPane1.setOpaque(false);
 
-        userTables.setModel(new javax.swing.table.DefaultTableModel(
+        sales_Table.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -240,7 +221,7 @@ con.displayData(sql, userTables);
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(userTables);
+        jScrollPane1.setViewportView(sales_Table);
 
         jPanel4.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 910, 530));
 
@@ -276,43 +257,6 @@ con.displayData(sql, userTables);
         jLabel4.setForeground(navcolor);      // TODO add your handling code here:
     }//GEN-LAST:event_jLabel4MouseExited
 
-    private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
- int selectedRow = userTables.getSelectedRow();
-    if (selectedRow == -1) {
-        JOptionPane.showMessageDialog(this, "Please select a user!");
-        return;
-    }
-
-    int u_id = Integer.parseInt(userTables.getValueAt(selectedRow, 0).toString());
-    String currentStatus = userTables.getValueAt(selectedRow, 3).toString();
-
-    String[] options = {"Activate", "Keep Pending"};
-    int choice = JOptionPane.showOptionDialog(
-            this,
-            "Current Status: " + currentStatus,
-            "Update User Status",
-            JOptionPane.DEFAULT_OPTION,
-            JOptionPane.INFORMATION_MESSAGE,
-            null,
-            options,
-            options[0]
-    );
-
-    if (choice == -1) return;
-
-    String newStatus = (choice == 0) ? "Active" : "Pending";
-
-    config con = new config();
-    String sql = "UPDATE users SET status=? WHERE user_id=?";
-    con.updateRecord(sql, newStatus, u_id);
-
-    JOptionPane.showMessageDialog(this,
-            "User status updated to: " + newStatus);
-
-    displayUser();
-      // TODO add your handling code here:
-    }//GEN-LAST:event_updateMouseClicked
-
     private void jLabel8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseEntered
         jLabel8.setForeground(HEADCOLOR); 
     }//GEN-LAST:event_jLabel8MouseEntered
@@ -322,7 +266,14 @@ con.displayData(sql, userTables);
     }//GEN-LAST:event_jLabel8MouseExited
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-    int choice = JOptionPane.showConfirmDialog(
+    sales sl = new sales();
+    sl.setVisible(true);
+    this.dispose();
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jLabel8MouseClicked
+
+    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
+        int choice = JOptionPane.showConfirmDialog(
             this,
             "Are you sure you want to log out?",
             "Confirm Logout",
@@ -337,18 +288,7 @@ con.displayData(sql, userTables);
 
         // Close current form
         this.dispose();
-    }
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jLabel8MouseClicked
-
-    private void jLabel6MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel6MouseClicked
-product pd = new product();
-pd.setVisible(true);
-this.dispose();// TODO add your handling code here:
-    }//GEN-LAST:event_jLabel6MouseClicked
-
-    private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        // TODO add your handling code here:
+    }    // TODO add your handling code here:
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jLabel9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseEntered
@@ -376,20 +316,23 @@ this.dispose();// TODO add your handling code here:
                 }
             }
         } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(userform.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(sales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(userform.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(sales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(userform.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(sales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(userform.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+            java.util.logging.Logger.getLogger(sales.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
+        //</editor-fold>
+        //</editor-fold>
+        //</editor-fold>
         //</editor-fold>
 
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new userform().setVisible(true);
+                new sales().setVisible(true);
             }
         });
     }
@@ -408,11 +351,8 @@ this.dispose();// TODO add your handling code here:
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JLabel update;
-    private javax.swing.JTable userTables;
+    private javax.swing.JTable sales_Table;
     // End of variables declaration//GEN-END:variables
 
-    private void chooseProfilePic() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+   
 }

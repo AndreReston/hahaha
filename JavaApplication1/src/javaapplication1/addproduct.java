@@ -9,6 +9,7 @@ import java.awt.Color;
 
 import config.config;
 import java.io.File;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
@@ -48,21 +49,38 @@ pimage.addMouseListener(new java.awt.event.MouseAdapter() {
     // NOW you can start the new method
     void chooseProfilePic() {
     JFileChooser fileChooser = new JFileChooser();
-    fileChooser.setDialogTitle("Select Product Image");
-    fileChooser.setFileFilter(new javax.swing.filechooser.FileNameExtensionFilter("Images", "jpg", "png", "gif", "jpeg"));
+    // ... (keep your existing setup code)
 
     int result = fileChooser.showOpenDialog(this);
     if (result == JFileChooser.APPROVE_OPTION) {
-        File selectedFile = fileChooser.getSelectedFile();
-        this.destinationPath = selectedFile.getAbsolutePath(); // Save path here
-        
         try {
-            javax.swing.ImageIcon originalIcon = new javax.swing.ImageIcon(destinationPath);
-            java.awt.Image img = originalIcon.getImage();
-            java.awt.Image scaledImg = img.getScaledInstance(pimage.getWidth(), pimage.getHeight(), java.awt.Image.SCALE_SMOOTH);
-            pimage.setIcon(new javax.swing.ImageIcon(scaledImg));
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Error loading image: " + e.getMessage());
+            File selectedFile = fileChooser.getSelectedFile();
+            File destinationDir = new File("src/javaapplication1/image");
+            
+            if (!destinationDir.exists()) {
+                destinationDir.mkdirs();
+            }
+
+            File destinationFile = new File(destinationDir, selectedFile.getName());
+
+            java.nio.file.Files.copy(
+                selectedFile.toPath(), 
+                destinationFile.toPath(), 
+                java.nio.file.StandardCopyOption.REPLACE_EXISTING
+            );
+
+            // FIX: Assign to the GLOBAL variable destinationPath
+            destinationPath = "src/javaapplication1/image/" + selectedFile.getName();
+            
+            // OPTIONAL: Preview the image on your pimage label
+            ImageIcon icon = new ImageIcon(destinationPath);
+            java.awt.Image img = icon.getImage().getScaledInstance(pimage.getWidth(), pimage.getHeight(), java.awt.Image.SCALE_SMOOTH);
+            pimage.setIcon(new ImageIcon(img));
+
+            JOptionPane.showMessageDialog(this, "Image selected and saved!");
+
+        } catch (Exception ex) {
+            JOptionPane.showMessageDialog(this, "Error: " + ex.getMessage());
         }
     }}
 Color navcolor = new Color (0,255,255);

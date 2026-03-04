@@ -81,7 +81,7 @@
               <Color blue="ff" green="ff" red="0" type="rgb"/>
             </Property>
             <Property name="horizontalAlignment" type="int" value="0"/>
-            <Property name="text" type="java.lang.String" value="USERS"/>
+            <Property name="text" type="java.lang.String" value="SALES"/>
             <Property name="opaque" type="boolean" value="true"/>
           </Properties>
           <Constraints>
