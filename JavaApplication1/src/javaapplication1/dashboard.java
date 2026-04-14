@@ -207,8 +207,8 @@ this.dispose();// TODO add your handling code here:
     );
 
     if (choice == JOptionPane.YES_OPTION) {
-        // Open NewJFrame
-        NewJFrame jf = new NewJFrame();
+        // Open landing
+        landing jf = new landing();
         jf.setVisible(true);
 
         // Close current form
@@ -232,15 +232,17 @@ this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel8MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseClicked
-        // TODO add your handling code here:
+      sales s = new sales();
+      s.setVisible(true);
+this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jLabel8MouseClicked
 
     private void jLabel8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseEntered
-        // TODO add your handling code here:
+      jLabel8.setForeground(HEADCOLOR);  // TODO add your handling code here:
     }//GEN-LAST:event_jLabel8MouseEntered
 
     private void jLabel8MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseExited
-        // TODO add your handling code here:
+     jLabel8.setForeground(navcolor);    // TODO add your handling code here:
     }//GEN-LAST:event_jLabel8MouseExited
 
     /**

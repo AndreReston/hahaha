@@ -6,6 +6,7 @@
 package javaapplication1;
 
 import config.config;
+import java.awt.Color;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,7 +14,8 @@ import javax.swing.JOptionPane;
  * @author USER23
  */
 public class costumer_purchase extends javax.swing.JFrame {
-
+Color navcolor = new Color (0,255,255);
+Color HEADCOLOR = new Color (255,255,255);
     private String productPrice;
     private int currentProductId;
     
@@ -34,199 +36,165 @@ public class costumer_purchase extends javax.swing.JFrame {
     private void initComponents() {
 
         jLabel3 = new javax.swing.JLabel();
-        jPanel1 = new javax.swing.JPanel();
-        ad = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
         wa = new javax.swing.JLabel();
-        pn = new javax.swing.JLabel();
-        was = new javax.swing.JLabel();
-        address = new javax.swing.JTextField();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
         jTextField2 = new javax.swing.JTextField();
-        email = new javax.swing.JTextField();
+        costumer = new javax.swing.JTextField();
         phone_number = new javax.swing.JTextField();
+        pn = new javax.swing.JLabel();
+        cash = new javax.swing.JTextField();
+        email = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
         quantity = new javax.swing.JTextField();
-        jLabel2 = new javax.swing.JLabel();
-        cash = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
         jTextField7 = new javax.swing.JTextField();
         jLabel4 = new javax.swing.JLabel();
-        costumer = new javax.swing.JTextField();
+        address = new javax.swing.JTextField();
+        ad = new javax.swing.JLabel();
+        was = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel5 = new javax.swing.JLabel();
 
         jLabel3.setText("CASH");
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
+        jPanel2.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
+
+        wa.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
+        wa.setForeground(new java.awt.Color(255, 255, 255));
+        wa.setText("COSTUMER NAME:");
+        jPanel2.add(wa, new org.netbeans.lib.awtextra.AbsoluteConstraints(40, 360, 160, 50));
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 227, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 204, Short.MAX_VALUE)
+            .addGap(0, 0, Short.MAX_VALUE)
         );
 
-        ad.setText("ADDRESS");
+        jPanel2.add(jPanel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 50, 260, 170));
 
-        wa.setText("COSTUMER NAME:");
-
-        pn.setText("PHONE NUMBER:");
-
-        was.setText("EMAIL:");
-
-        address.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                addressActionPerformed(evt);
-            }
-        });
+        jLabel2.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("CASH:");
+        jPanel2.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 450, -1, -1));
 
         jTextField2.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jTextField2ActionPerformed(evt);
             }
         });
-
-        email.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                emailActionPerformed(evt);
-            }
-        });
-
-        phone_number.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                phone_numberActionPerformed(evt);
-            }
-        });
-
-        jLabel1.setText("QUANTITY:");
-
-        quantity.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                quantityActionPerformed(evt);
-            }
-        });
-
-        jLabel2.setText("CASH");
-
-        cash.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cashActionPerformed(evt);
-            }
-        });
-
-        jButton1.setText("PURCHASE");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
-        jLabel4.setText("PRICE");
+        jPanel2.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(350, 250, 262, 50));
 
         costumer.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 costumerActionPerformed(evt);
             }
         });
+        jPanel2.add(costumer, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 360, 249, 50));
+
+        phone_number.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                phone_numberActionPerformed(evt);
+            }
+        });
+        jPanel2.add(phone_number, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 430, 249, 50));
+
+        pn.setBackground(new java.awt.Color(255, 255, 255));
+        pn.setFont(new java.awt.Font("Arial Black", 0, 14)); // NOI18N
+        pn.setForeground(new java.awt.Color(255, 255, 255));
+        pn.setText("PHONE NUMBER:");
+        jPanel2.add(pn, new org.netbeans.lib.awtextra.AbsoluteConstraints(60, 440, 140, -1));
+
+        cash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                cashActionPerformed(evt);
+            }
+        });
+        jPanel2.add(cash, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 440, 227, 40));
+
+        email.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                emailActionPerformed(evt);
+            }
+        });
+        jPanel2.add(email, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 510, 249, 50));
+
+        jLabel1.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("QUANTITY:");
+        jPanel2.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 380, -1, -1));
+
+        quantity.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                quantityActionPerformed(evt);
+            }
+        });
+        jPanel2.add(quantity, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 370, 227, 40));
+        jPanel2.add(jTextField7, new org.netbeans.lib.awtextra.AbsoluteConstraints(580, 510, 227, 46));
+
+        jLabel4.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel4.setText("PRICE:");
+        jPanel2.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 520, -1, -1));
+
+        address.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                addressActionPerformed(evt);
+            }
+        });
+        jPanel2.add(address, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 580, 249, 50));
+
+        ad.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
+        ad.setForeground(new java.awt.Color(255, 255, 255));
+        ad.setText("ADDRESS:");
+        jPanel2.add(ad, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 580, 113, 50));
+
+        was.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
+        was.setForeground(new java.awt.Color(255, 255, 255));
+        was.setText("EMAIL:");
+        jPanel2.add(was, new org.netbeans.lib.awtextra.AbsoluteConstraints(100, 510, 113, 50));
+
+        jButton1.setBackground(new java.awt.Color(0, 0, 0));
+        jButton1.setFont(new java.awt.Font("Arial Black", 1, 14)); // NOI18N
+        jButton1.setForeground(new java.awt.Color(0, 255, 255));
+        jButton1.setText("PURCHASE");
+        jButton1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jButton1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jButton1MouseExited(evt);
+            }
+        });
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(670, 590, -1, 59));
+
+        jLabel5.setIcon(new javax.swing.ImageIcon(getClass().getResource("/javaapplication1/image/header_braindiseases.png"))); // NOI18N
+        jLabel5.setText("jLabel5");
+        jPanel2.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1080, 680));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(122, 122, 122)
-                                .addComponent(ad, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(was, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(1, 1, 1)))
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(156, 156, 156)
-                                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 127, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(107, 107, 107)
-                                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(74, 74, 74)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(43, 43, 43)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2)
-                                    .addComponent(jLabel4))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                                    .addComponent(quantity, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(cash, javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jTextField7, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 227, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(119, 119, 119)
-                        .addComponent(pn, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(phone_number, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(costumer, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(104, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(116, 116, 116)
-                    .addComponent(wa, javax.swing.GroupLayout.PREFERRED_SIZE, 113, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(698, Short.MAX_VALUE)))
+            .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(23, 23, 23)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                    .addComponent(jLabel1)
-                                    .addComponent(costumer, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addGap(0, 0, Short.MAX_VALUE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(82, 82, 82)
-                                .addComponent(quantity)))
-                        .addGap(26, 26, 26)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(phone_number, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(pn, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jLabel2)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(148, 148, 148)
-                        .addComponent(cash)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(email, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(was, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel4)
-                    .addComponent(jTextField7, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(address, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ad, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 59, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(117, 117, 117))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(289, 289, 289)
-                    .addComponent(wa, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(336, Short.MAX_VALUE)))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -261,7 +229,7 @@ public class costumer_purchase extends javax.swing.JFrame {
     }//GEN-LAST:event_costumerActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // 1. Collect inputs from your specific text fields
+// 1. Collect inputs from the text fields FIRST
     String custName = costumer.getText();
     String phone = phone_number.getText();
     String mail = email.getText();
@@ -276,6 +244,7 @@ public class costumer_purchase extends javax.swing.JFrame {
     }
 
     try {
+        // 3. Calculations
         int qtyValue = Integer.parseInt(qtyStr);
         double priceValue = Double.parseDouble(productPrice);
         double total = priceValue * qtyValue;
@@ -286,39 +255,52 @@ public class costumer_purchase extends javax.swing.JFrame {
             return;
         }
 
+        // 4. Database Operations
         config conf = new config();
-
-        // 3. STEP 1: Insert into 'customers' table
         String customerSql = "INSERT INTO customers (full_name, phone, email, address) VALUES (?, ?, ?, ?)";
         conf.addRecord(customerSql, custName, phone, mail, addr);
 
-        // 4. STEP 2: Create an Order entry (Assumes 'orders' table has customer_id or similar)
-        // We use a dummy ID or a static reference for now since we are focusing on order_items
-        int orderId = 1; 
-
-        // 5. STEP 3: Insert into 'order_items'
-        // This solves why product_id, quantity, and price were not saving
-        String itemSql = "INSERT INTO order_items (order_id, product_id, quantity, price) VALUES (?, ?, ?, ?)";
-        conf.addRecord(itemSql, orderId, currentProductId, qtyValue, priceValue);
-
-        // 6. STEP 4: Update 'products' stock
         String stockSql = "UPDATE products SET stock = stock - ? WHERE product_id = ?";
         conf.addRecord(stockSql, qtyValue, currentProductId);
 
-        // 7. Success & Change Calculation
+        // 5. Success & Receipt Generation
         double change = cashValue - total;
         JOptionPane.showMessageDialog(this, "Purchase Successful!\nTotal: ₱" + total + "\nChange: ₱" + change);
 
-        // Back to store
-        new store().setVisible(true);
-        this.dispose();
+        // CREATE THE RECEIPT WINDOW
+        receipt rd = new receipt();
+        
+        // SHOW THE WINDOW FIRST (helps with rendering)
+        rd.setVisible(true); 
+        
+        // NOW PRINT THE DATA TO THE TEXT AREA
+        rd.printReceipt(
+            custName,               
+            jTextField2.getText(), 
+            qtyStr,                
+            productPrice,          
+            String.format("%.2f", total),  
+            String.format("%.2f", cashValue), 
+            String.format("%.2f", change)     
+        );
+
+        this.dispose(); // Close purchase window
 
     } catch (NumberFormatException e) {
-        JOptionPane.showMessageDialog(this, "Error: Please enter valid numeric values for Quantity and Cash.");
+        JOptionPane.showMessageDialog(this, "Error: Please enter valid numeric values.");
     } catch (Exception e) {
         JOptionPane.showMessageDialog(this, "Database Error: " + e.getMessage());
     }
+   
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseEntered
+jButton1.setForeground(HEADCOLOR);     // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseEntered
+
+    private void jButton1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton1MouseExited
+  jButton1.setForeground(navcolor);       // TODO add your handling code here:
+    }//GEN-LAST:event_jButton1MouseExited
 
     /**
      * @param args the command line arguments
@@ -366,7 +348,9 @@ public class costumer_purchase extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
     private javax.swing.JTextField jTextField2;
     private javax.swing.JTextField jTextField7;
     private javax.swing.JTextField phone_number;
@@ -376,13 +360,15 @@ public class costumer_purchase extends javax.swing.JFrame {
     private javax.swing.JLabel was;
     // End of variables declaration//GEN-END:variables
 
-    public void setProductDetails(String name, String price, String imgPath) {
-    this.productPrice = price; // Store price for calculation
-        jTextField2.setText(name); // Product Name
+    public void setProductDetails(int id, String name, String price, String imgPath) {
+        this.currentProductId = id; // Now 'id' is recognized because it's in the ( ) above
+        this.productPrice = price; 
+
+        jTextField2.setText(name); 
         jTextField2.setEditable(false); 
-        jTextField7.setText(price); // Assuming jTextField7 is for displaying unit price
+        jTextField7.setText(price); 
         jTextField7.setEditable(false);
-        
+
         if (imgPath != null && !imgPath.isEmpty()) {
             try {
                 javax.swing.ImageIcon icon = new javax.swing.ImageIcon(imgPath);
@@ -399,7 +385,7 @@ public class costumer_purchase extends javax.swing.JFrame {
                 System.out.println("Image Error: " + e.getMessage());
             }
         }
-    }
+    } // Closes setProductDetails
 
-    // APPLY THE PURCHASE LOGIC TO THE BUTTON
-   }
+    
+}

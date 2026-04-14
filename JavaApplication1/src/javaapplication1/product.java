@@ -339,8 +339,8 @@ con.displayData(sql, productTable);
     );
 
     if (choice == JOptionPane.YES_OPTION) {
-        // Open NewJFrame
-        NewJFrame jf = new NewJFrame();
+        // Open landing
+        landing jf = new landing();
         jf.setVisible(true);
 
         // Close current form

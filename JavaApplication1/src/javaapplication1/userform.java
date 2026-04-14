@@ -25,12 +25,12 @@ public class userform extends javax.swing.JFrame {
             return;
         }
 
-        int u_id = Integer.parseInt(userTables.getValueAt(selectedRow, 0).toString());
+        int user_id = Integer.parseInt(userTables.getValueAt(selectedRow, 0).toString());
         
         // Check if profile_path already exists
         config con = new config();
-        String sqlCheck = "SELECT profile_path FROM users WHERE u_id=?";
-        String profilePath = con.getSingleValue(sqlCheck, u_id);
+        String sqlCheck = "SELECT profile_path FROM users WHERE user_id=? AND is_archived = 0";
+        String profilePath = con.getSingleValue(sqlCheck, user_id);
         
         if (profilePath != null && !profilePath.trim().isEmpty()) {
             // Already has profile picture, go straight to dashboard
@@ -46,8 +46,8 @@ public class userform extends javax.swing.JFrame {
                 String path = selectedFile.getAbsolutePath();
 
                 // Update DB
-                String sqlUpdate = "UPDATE users SET profile_path=? WHERE u_id=?";
-                con.updateRecord(sqlUpdate, path, u_id);
+                String sqlUpdate = "UPDATE users SET profile_path=? WHERE user_id=?";
+                con.updateRecord(sqlUpdate, path, user_id);
 
                 JOptionPane.showMessageDialog(this, "Profile picture updated!");
 
@@ -79,9 +79,15 @@ public class userform extends javax.swing.JFrame {
 Color navcolor = new Color (0,255,255);
 Color HEADCOLOR = new Color (255,255,255);
 void displayUser(){
-config con = new config();
-String sql = "SELECT * FROM users";
-con.displayData(sql, userTables);
+ config con = new config();
+    String sql = "SELECT * FROM users WHERE is_archived = 0";
+    con.displayData(sql, userTables);
+    
+    // Hide the 'is_archived' column (assuming it's the last column, e.g., index 11)
+    // Check your table to confirm which index it is!
+    userTables.getColumnModel().getColumn(11).setMinWidth(0);
+    userTables.getColumnModel().getColumn(11).setMaxWidth(0);
+    userTables.getColumnModel().getColumn(11).setWidth(0);
 }
     /**
      * This method is called from within the constructor to initialize the form.
@@ -94,6 +100,9 @@ con.displayData(sql, userTables);
 
         jPanel2 = new javax.swing.JPanel();
         jPanel1 = new javax.swing.JPanel();
+        viewArchive = new javax.swing.JLabel();
+        Promote = new javax.swing.JLabel();
+        delete = new javax.swing.JLabel();
         update = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
         jPanel3 = new javax.swing.JPanel();
@@ -117,21 +126,55 @@ con.displayData(sql, userTables);
 
         jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
+        viewArchive.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
+        viewArchive.setForeground(new java.awt.Color(0, 255, 255));
+        viewArchive.setText("VIEW ARCHIVE");
+        viewArchive.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                viewArchiveMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                viewArchiveMouseEntered(evt);
+            }
+        });
+        jPanel1.add(viewArchive, new org.netbeans.lib.awtextra.AbsoluteConstraints(830, 150, 230, 40));
+
+        Promote.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
+        Promote.setForeground(new java.awt.Color(0, 255, 255));
+        Promote.setText("PROMOTE");
+        Promote.setToolTipText("");
+        Promote.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                PromoteMouseClicked(evt);
+            }
+        });
+        jPanel1.add(Promote, new org.netbeans.lib.awtextra.AbsoluteConstraints(420, 150, 170, 40));
+
+        delete.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
+        delete.setForeground(new java.awt.Color(0, 255, 255));
+        delete.setText("ARCHIVE");
+        delete.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                deleteMouseClicked(evt);
+            }
+        });
+        jPanel1.add(delete, new org.netbeans.lib.awtextra.AbsoluteConstraints(630, 150, 150, 40));
+
         update.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
         update.setForeground(new java.awt.Color(0, 255, 255));
-        update.setText("UPDATE");
+        update.setText("ACCEPT");
         update.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 updateMouseClicked(evt);
             }
         });
-        jPanel1.add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 150, 130, 40));
+        jPanel1.add(update, new org.netbeans.lib.awtextra.AbsoluteConstraints(250, 150, 130, 40));
 
         jLabel1.setBackground(new java.awt.Color(0, 0, 0));
         jLabel1.setFont(new java.awt.Font("Arial Black", 1, 36)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(0, 255, 255));
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("SALES");
+        jLabel1.setText("USERS");
         jLabel1.setOpaque(true);
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1170, 200));
 
@@ -187,7 +230,7 @@ con.displayData(sql, userTables);
         jLabel9.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
         jLabel9.setForeground(new java.awt.Color(0, 255, 255));
         jLabel9.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel9.setText("LOGOUT");
+        jLabel9.setText("SALES");
         jLabel9.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel9MouseClicked(evt);
@@ -199,12 +242,12 @@ con.displayData(sql, userTables);
                 jLabel9MouseExited(evt);
             }
         });
-        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 290, 210, 60));
+        jPanel3.add(jLabel9, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 200, 210, 60));
 
         jLabel8.setFont(new java.awt.Font("Arial Black", 1, 24)); // NOI18N
         jLabel8.setForeground(new java.awt.Color(0, 255, 255));
         jLabel8.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel8.setText("SALES");
+        jLabel8.setText("LOGOUT");
         jLabel8.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 jLabel8MouseClicked(evt);
@@ -216,7 +259,7 @@ con.displayData(sql, userTables);
                 jLabel8MouseExited(evt);
             }
         });
-        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 210, 210, 60));
+        jPanel3.add(jLabel8, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 260, 210, 60));
 
         jLabel2.setBackground(new java.awt.Color(0, 0, 0));
         jLabel2.setForeground(new java.awt.Color(51, 51, 255));
@@ -278,14 +321,31 @@ con.displayData(sql, userTables);
 
     private void updateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_updateMouseClicked
  int selectedRow = userTables.getSelectedRow();
+
     if (selectedRow == -1) {
         JOptionPane.showMessageDialog(this, "Please select a user!");
         return;
     }
 
-    int u_id = Integer.parseInt(userTables.getValueAt(selectedRow, 0).toString());
-    String currentStatus = userTables.getValueAt(selectedRow, 3).toString();
+    // 1. Get User ID from the table (Column 0)
+    int userId = Integer.parseInt(userTables.getValueAt(selectedRow, 0).toString());
+    String currentStatus = userTables.getValueAt(selectedRow, 3).toString(); // Confirm status is column 3
 
+    config con = new config();
+
+    // 2. Check if the user is archived before allowing an update
+    // Note: Changed u_id to user_id to match your archive logic
+    String checkSql = "SELECT is_archived FROM users WHERE user_id=?";
+    
+    // Use the getSingleValue method and parse it, or ensure getIntValue exists in config
+    String archivedStatus = con.getSingleValue(checkSql, userId);
+
+    if (archivedStatus != null && archivedStatus.equals("1")) {
+        JOptionPane.showMessageDialog(this, "This user is archived and cannot be modified!");
+        return;
+    }
+
+    // 3. Show Option Dialog
     String[] options = {"Activate", "Keep Pending"};
     int choice = JOptionPane.showOptionDialog(
             this,
@@ -298,19 +358,18 @@ con.displayData(sql, userTables);
             options[0]
     );
 
-    if (choice == -1) return;
+    if (choice == -1) return; // User closed the dialog
 
     String newStatus = (choice == 0) ? "Active" : "Pending";
 
-    config con = new config();
+    // 4. Update the database - Ensure column name is user_id
     String sql = "UPDATE users SET status=? WHERE user_id=?";
-    con.updateRecord(sql, newStatus, u_id);
+    con.updateRecord(sql, newStatus, userId);
 
-    JOptionPane.showMessageDialog(this,
-            "User status updated to: " + newStatus);
+    JOptionPane.showMessageDialog(this, "User status updated to: " + newStatus);
 
+    // 5. Refresh table
     displayUser();
-      // TODO add your handling code here:
     }//GEN-LAST:event_updateMouseClicked
 
     private void jLabel8MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel8MouseEntered
@@ -331,8 +390,8 @@ con.displayData(sql, userTables);
     );
 
     if (choice == JOptionPane.YES_OPTION) {
-        // Open NewJFrame
-        NewJFrame jf = new NewJFrame();
+        // Open landing
+        landing jf = new landing();
         jf.setVisible(true);
 
         // Close current form
@@ -348,16 +407,72 @@ this.dispose();// TODO add your handling code here:
     }//GEN-LAST:event_jLabel6MouseClicked
 
     private void jLabel9MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseClicked
-        // TODO add your handling code here:
+   sales sd = new sales();
+sd.setVisible(true);
+this.dispose();     // TODO add your handling code here:
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jLabel9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseEntered
-        // TODO add your handling code here:
+      jLabel9.setForeground(HEADCOLOR);   // TODO add your handling code here:
     }//GEN-LAST:event_jLabel9MouseEntered
 
     private void jLabel9MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseExited
-        // TODO add your handling code here:
+       jLabel8.setForeground(navcolor); // TODO add your handling code here:
     }//GEN-LAST:event_jLabel9MouseExited
+
+    private void deleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_deleteMouseClicked
+ int selectedRow = userTables.getSelectedRow();
+
+    if (selectedRow == -1) {
+        JOptionPane.showMessageDialog(this, "Please select a user to archive!");
+        return;
+    }
+
+    // Get ID from the first column (user_id)
+    String userIdStr = userTables.getValueAt(selectedRow, 0).toString();
+    int user_id = Integer.parseInt(userIdStr);
+    String userName = userTables.getValueAt(selectedRow, 1).toString();
+
+    // 1. Confirmation Dialog
+    int confirm = JOptionPane.showConfirmDialog(
+            this, 
+            "Are you sure you want to archive " + userName + "?", 
+            "Confirm Archive", 
+            JOptionPane.YES_NO_OPTION,
+            JOptionPane.WARNING_MESSAGE
+    );
+
+    if (confirm == JOptionPane.YES_OPTION) {
+        config con = new config();
+        
+        // 2. Perform Update
+        String sql = "UPDATE users SET is_archived = 1 WHERE user_id = ?";
+        con.updateRecord(sql, user_id);
+
+        // 3. Success Message and Refresh
+        JOptionPane.showMessageDialog(this, userName + " has been archived.");
+        displayUser(); // This re-runs the SELECT query with WHERE is_archived = 0
+     // refresh table
+    }        // TODO add your handling code here:
+    }//GEN-LAST:event_deleteMouseClicked
+
+    private void viewArchiveMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewArchiveMouseClicked
+config con = new config();
+    // Switch the query based on what the admin wants to see
+    String sql = "SELECT * FROM users WHERE is_archived = 1";
+    con.displayData(sql, userTables);
+
+    // Change the 'Archive' label/button text to 'Restore'
+    delete.setText("RESTORE");        // TODO add your handling code here:
+    }//GEN-LAST:event_viewArchiveMouseClicked
+
+    private void PromoteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PromoteMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_PromoteMouseClicked
+
+    private void viewArchiveMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewArchiveMouseEntered
+      jLabel9.setForeground(HEADCOLOR);  // TODO add your handling code here:
+    }//GEN-LAST:event_viewArchiveMouseEntered
 
     /**
      * @param args the command line arguments
@@ -395,6 +510,8 @@ this.dispose();// TODO add your handling code here:
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel Promote;
+    private javax.swing.JLabel delete;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -410,9 +527,28 @@ this.dispose();// TODO add your handling code here:
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JLabel update;
     private javax.swing.JTable userTables;
+    private javax.swing.JLabel viewArchive;
     // End of variables declaration//GEN-END:variables
 
     private void chooseProfilePic() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    JFileChooser fileChooser = new JFileChooser();
+    int result = fileChooser.showOpenDialog(this);
+    if (result == JFileChooser.APPROVE_OPTION) {
+        File selectedFile = fileChooser.getSelectedFile();
+        String path = selectedFile.getAbsolutePath();
+
+        int selectedRow = userTables.getSelectedRow();
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select a user first!");
+            return;
+        }
+        int user_id = Integer.parseInt(userTables.getValueAt(selectedRow, 0).toString());
+
+        config con = new config();
+        String sqlUpdate = "UPDATE users SET profile_path=? WHERE user_id=?";
+        con.updateRecord(sqlUpdate, path, user_id);
+
+        JOptionPane.showMessageDialog(this, "Profile picture updated!");
     }
+}
 }

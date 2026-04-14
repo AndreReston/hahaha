@@ -208,21 +208,31 @@ public String getSingleValue(String sql, String username) {
     }
     return value;
 }
-
-    public String getSingleValue(String sqlCheck, int u_id) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-
-    public ResultSet getData(String sql) {
-        try {
-            Connection conn = connectDB();
-            Statement stmt = conn.createStatement();
-            return stmt.executeQuery(sql);
-        } catch (SQLException e) {
-            System.out.println("Error getting data: " + e.getMessage());
-            return null;
-        }
-    }
-
+public ResultSet getData(String sql) throws SQLException {
+    Connection conn = connectDB();
+    Statement stmt = conn.createStatement();
+    ResultSet rs = stmt.executeQuery(sql);
+    return rs;
 }
+  public String getSingleValue(String sqlCheck, int u_id) {
+    String value = null;
+    // Use 'sqlCheck' because that is the name in your parameter list above
+    try (Connection conn = connectDB();
+         PreparedStatement pst = conn.prepareStatement(sqlCheck)) {
+        
+        // Use 'u_id' because that is the name in your parameter list above
+        pst.setInt(1, u_id);
+        try (ResultSet rs = pst.executeQuery()) {
+            if (rs.next()) {
+                value = rs.getString(1);
+            }
+        }
+    } catch (SQLException e) {
+        System.out.println("Error in getSingleValue (int): " + e.getMessage());
+    }
+    return value;
+} }
+
+
+
 

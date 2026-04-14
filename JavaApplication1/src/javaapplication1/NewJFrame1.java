@@ -8,6 +8,9 @@ package javaapplication1;
 import config.config;
 import javax.swing.JOptionPane;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 public class NewJFrame1 extends javax.swing.JFrame {
 
     /**
@@ -149,77 +152,68 @@ Color HEADCOLOR = new Color (0,0,0);
     }//GEN-LAST:event_usActionPerformed
 
     private void loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_loginActionPerformed
-// 1. Get input from the text fields
-    String username = us.getText();
-    String password = new String(ps.getPassword()); // Proper way to get password
+String username = us.getText();
+        String password = new String(ps.getPassword());
 
-    if (username.isEmpty() || password.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "Please fill all fields!");
-        return;
-    }
-
-    try {
-        config con = new config();
-        // 2. Select columns to check if profile is complete
-        // IMPORTANT: Ensure your SQLite table has a 'profile_path' column!
-        String sql = "SELECT user_id, status, role, full_name, profile_path FROM users WHERE users=? AND pass=?";
-        
-        java.sql.Connection conn = con.connectDB();
-        java.sql.PreparedStatement pst = conn.prepareStatement(sql);
-
-        pst.setString(1, username);
-        pst.setString(2, password);
-
-        java.sql.ResultSet rs = pst.executeQuery();
-
-        if (rs.next()) {
-            int id = rs.getInt("user_id");
-            String status = rs.getString("status");
-            String role = rs.getString("role");
-            String fullName = rs.getString("full_name");
-            String pPath = rs.getString("profile_path");
-
-            // Check if account is active
-            if (!status.equalsIgnoreCase("Active")) {
-                JOptionPane.showMessageDialog(this, "Your account is pending approval!");
-                return;
-            }
-
-            // Role-based navigation
-            if (role.equalsIgnoreCase("admin")) {
-                new dashboard().setVisible(true);
-                this.dispose();
-            } 
-            else if (role.equalsIgnoreCase("staff")) {
-                // 3. LOGIC: If profile is missing Name or Picture, go to setup
-                if (fullName == null || fullName.trim().isEmpty() || pPath == null || pPath.trim().isEmpty()) {
-    JOptionPane.showMessageDialog(this, "Welcome! Please complete your profile setup.");
-    
-    // Pass the 'id' variable you got from rs.getInt("user_id")
-    index idx = new index(id); 
-    idx.setVisible(true);
-    this.dispose();
-                } else {
-                    // 4. PROFILE IS DONE: Skip setup and go to Store
-                    JOptionPane.showMessageDialog(this, "Welcome back, " + fullName + "!");
-                    store shop = new store();
-                    shop.setVisible(true);
-                    this.dispose();
-                }
-            }
-        } else {
-            JOptionPane.showMessageDialog(this, "Invalid username or password!");
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this, "Please fill all fields!");
+            return;
         }
 
-        // 5. Always close your connections
-        rs.close();
-        pst.close();
-        conn.close();
+        try {
+            config con = new config();
+            // Checking status and role based on your SQLite columns
+            String sql = "SELECT user_id, status, role, full_name, profile_path FROM users WHERE users=? AND pass=?";
+            
+            Connection conn = con.connectDB();
+            PreparedStatement pst = conn.prepareStatement(sql);
+            pst.setString(1, username);
+            pst.setString(2, password);
 
-    } catch (Exception e) {
-        JOptionPane.showMessageDialog(this, "Login Error: " + e.getMessage());
-        e.printStackTrace();
-    }
+            ResultSet rs = pst.executeQuery();
+
+            if (rs.next()) {
+                int id = rs.getInt("user_id");
+                String status = rs.getString("status");
+                String role = rs.getString("role");
+                String fullName = rs.getString("full_name");
+                String pPath = rs.getString("profile_path");
+
+                // --- SECURITY CHECK: PENDING ACCOUNTS ---
+                if (!status.equalsIgnoreCase("Active")) {
+                    JOptionPane.showMessageDialog(this, "Your account is still PENDING. Please wait for Admin approval.", "Access Denied", JOptionPane.WARNING_MESSAGE);
+                    return;
+                }
+
+                // --- ROLE BASED NAVIGATION ---
+                if (role.equalsIgnoreCase("Admin")) {
+                    JOptionPane.showMessageDialog(this, "Admin Login Successful!");
+                    new dashboard().setVisible(true); // Assuming 'dashboard' is your Admin Frame
+                    this.dispose();
+                } 
+                else if (role.equalsIgnoreCase("Staff")) {
+                    // Check if they need to finish setting up their profile (Name or Picture)
+                    if (fullName == null || fullName.trim().isEmpty() || pPath == null || pPath.trim().isEmpty()) {
+                        JOptionPane.showMessageDialog(this, "Welcome! Please finish setting up your profile.");
+                        new index(id).setVisible(true); // Passing User ID to Setup Frame
+                        this.dispose();
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Welcome back, " + fullName + "!");
+                        new staff_dashboard().setVisible(true); // Redirect to Store/Staff view
+                        this.dispose();
+                    }
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Invalid username or password!");
+            }
+
+            rs.close();
+            pst.close();
+            conn.close();
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, "Database Error: " + e.getMessage());
+        }
 
 
 

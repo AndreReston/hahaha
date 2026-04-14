@@ -390,8 +390,8 @@ Color HEADCOLOR = new Color (255,255,255);
     );
 
     if (choice == JOptionPane.YES_OPTION) {
-        // Open NewJFrame
-        NewJFrame jf = new NewJFrame();
+        // Open landing
+        landing jf = new landing();
         jf.setVisible(true);
 
         // Close current form

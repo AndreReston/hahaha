@@ -282,8 +282,8 @@ Color HEADCOLOR = new Color (255,255,255);
     );
 
     if (choice == JOptionPane.YES_OPTION) {
-        // Open NewJFrame
-        NewJFrame jf = new NewJFrame();
+        // Open landing
+        landing jf = new landing();
         jf.setVisible(true);
 
         // Close current form
@@ -292,11 +292,11 @@ Color HEADCOLOR = new Color (255,255,255);
     }//GEN-LAST:event_jLabel9MouseClicked
 
     private void jLabel9MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseEntered
-        // TODO add your handling code here:
+     jLabel9.setForeground(HEADCOLOR);    // TODO add your handling code here:
     }//GEN-LAST:event_jLabel9MouseEntered
 
     private void jLabel9MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel9MouseExited
-        // TODO add your handling code here:
+      jLabel9.setForeground(navcolor);  // TODO add your handling code here:
     }//GEN-LAST:event_jLabel9MouseExited
 
     /**

@@ -145,20 +145,13 @@ public class register extends javax.swing.JFrame {
     }//GEN-LAST:event_txt_loginActionPerformed
 
     private void registerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_registerActionPerformed
-        // TODO add your handling code here:
-        String username = users.getText();
-    String password = new String(pass.getPassword()); // Use getPassword() for JPasswordField
+       String username = users.getText();
+    String password = new String(pass.getPassword());
     String confirm  = new String(passcon.getPassword());
     
-    // These fields exist in your DB but aren't in your UI yet
-    String fullName = "Not Set"; 
-    String email = "Not Set";
-    String role = "Staff";
-    String status = "Pending";
-
     // Validation
-    if (username.isEmpty() || password.isEmpty() || confirm.isEmpty()) {
-        JOptionPane.showMessageDialog(this, "All fields are required!");
+    if (username.isEmpty() || password.isEmpty()) {
+        JOptionPane.showMessageDialog(this, "Fields cannot be empty!");
         return;
     }
 
@@ -169,18 +162,13 @@ public class register extends javax.swing.JFrame {
 
     config con = new config();
     
-    // Updated SQL to match your SQLite screenshot
-    String sql = "INSERT INTO users (users, full_name, email, pass, role, status) VALUES (?, ?, ?, ?, ?, ?)";
+    // Adjusted SQL to match columns visible in your image (Removed email if it's missing)
+    String sql = "INSERT INTO users (users, full_name, pass, role, status, is_archived) VALUES (?, ?, ?, ?, ?, ?)";
 
-    // Pass all 6 arguments to match the 6 question marks
-    con.addRecord(sql, username, fullName, email, password, role, status);
+    // "Not Set" for full_name, "Staff" for role, "Active" for status, 0 for is_archived
+    con.addRecord(sql, username, "New User", password, "Staff", "Pending", 0);
 
-    JOptionPane.showMessageDialog(this, "Registered successfully!\nStatus: " + status);
-    
-    // Optional: Clear fields
-    users.setText("");
-    pass.setText("");
-    passcon.setText("");
+    JOptionPane.showMessageDialog(this, "Registered successfully!");
     
     }//GEN-LAST:event_registerActionPerformed
 
